@@ -75,7 +75,8 @@
     <LibraryPath>C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glew-2.1.0\lib\Release\Win32;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2022;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.4.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\Libraries;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2019;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glew-2.1.0\include\GL;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\stb-master;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glm;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glew-2.1.0;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.4.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExternalIncludePath>C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\stb-master;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glm;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\include;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glew-2.1.0\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,10 +112,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glew-2.1.0;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\stb-master;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glm\glm;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\include;C:\Users\vladi\Desktop\AquariumSimulation_OpenGLProject\AquariumSimulation\External\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
