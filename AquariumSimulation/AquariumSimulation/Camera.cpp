@@ -73,6 +73,12 @@ void Camera::ProcessMouseScroll(float yoffset)
 		Zoom = 1.0f;
 	if (Zoom >= 45.0f)
 		Zoom = 45.0f;
+	//if (Yaw >= 180.0f)
+		//	Yaw = 180.0f;
+		//if (Yaw <= 1.0f)
+		//	Yaw = 1.0f;
+	if (Yaw >= 360.0f || Yaw <= -360.f)
+		Yaw = 0.0f;
 }
 
 void Camera::updateCameraVectors()
