@@ -38,49 +38,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-//float vertices[] = {
-//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//
-//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-//};
 
 void initOpenGLProgram(GLFWwindow* window)
 {
@@ -97,6 +54,7 @@ void initOpenGLProgram(GLFWwindow* window)
 void freeOpenGLProgram(GLFWwindow* window)
 {
 	delete ourShader;
+	glfwDestroyWindow(window);
 }
 
 void drawScene(GLFWwindow* window)

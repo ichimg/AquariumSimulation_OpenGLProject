@@ -9,11 +9,10 @@
 #include "stb_image.h"
 
 
-const int LENGTH = 10;
-const int WIDTH = 10;
-const unsigned int VERTEXCOUNT = 4;
-const unsigned int INDEXCOUNT = 12;
-const unsigned int TEXTURESCOUNT = 8;
+const int LENGTH = 10;	//Length of floor object
+const int WIDTH = 10;	//Width of floor object
+const unsigned int VERTEXCOUNT = 4;	//Number of Vertices
+const unsigned int INDEXCOUNT = 6;	//Number of Indices
 
 class Floor
 {
@@ -21,8 +20,8 @@ private:
 	glm::mat4 Model;
 	int Length; //X Coordinate
 	int Width;	//Z Coordinate
-	int VertexCount;
-	int IndexCount;
+	static int VertexCount;
+	static int IndexCount;
 	static float Vertices[];
 	static float Colors[];
 	static float TextureVertices[];
@@ -30,13 +29,17 @@ private:
 	unsigned int VAO, VBO[3], EBO;
 
 	unsigned char* data;
-	int Tex_width, Tex_height, nrChannels;
+	int TextureWidth, TextureHeight, nrChannels;
 	unsigned int Texture;
+	enum TextureNumber
+	{
+		sand
+	};
 
 public:
 	Floor();	//default constructor
 	~Floor();	//default destructor
-	void draw(Shader* sp);
+	void draw(Shader* sp);	//draw Floor in loop function
 };
 
 #endif
