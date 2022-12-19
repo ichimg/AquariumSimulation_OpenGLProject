@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glm\glm;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\include\GLFW;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glm\;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\include\;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\stb-master;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glew-2.1.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glew-2.1.0\lib\Release\Win32;C:\Users\Ichim Gabriel\Desktop\proiecteGrafica\AquariumSimulation_OpenGLProject.git\AquariumSimulation\External\glfw-3.3.8.bin.WIN32\lib-vc2022;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,10 +139,12 @@
   <ItemGroup>
     <ClCompile Include="AquariumSimulation.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>

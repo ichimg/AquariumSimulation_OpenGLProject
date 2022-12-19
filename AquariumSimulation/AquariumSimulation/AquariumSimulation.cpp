@@ -1,3 +1,4 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include <stdlib.h> // necesare pentru citirea shader-elor
 #include <stdio.h>
 #include <math.h>
@@ -9,6 +10,7 @@
 
 #include "Shader.h"
 #include "Camera.h"
+#include "Floor.h"
 
 #include <iostream>
 
@@ -26,6 +28,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 Shader* ourShader;
+Floor* floor_w;
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -35,49 +38,49 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-float vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-};
+//float vertices[] = {
+//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+//	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+//
+//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+//	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+//	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+//	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+//
+//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//
+//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+//	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//
+//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+//	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+//
+//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+//	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+//	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+//};
 
 void initOpenGLProgram(GLFWwindow* window)
 {
@@ -96,7 +99,7 @@ void freeOpenGLProgram(GLFWwindow* window)
 	delete ourShader;
 }
 
-void drawScene(GLFWwindow* window, unsigned int VAO)
+void drawScene(GLFWwindow* window)
 {
 	// render
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -106,7 +109,7 @@ void drawScene(GLFWwindow* window, unsigned int VAO)
 	ourShader->use();
 
 	// create transformations
-	glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	//glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
@@ -116,12 +119,14 @@ void drawScene(GLFWwindow* window, unsigned int VAO)
 
 	// pass transformation matrices to the shader
 	ourShader->setMat4("view", view);
-	ourShader->setMat4("model", model);
+	//ourShader->setMat4("model", model);
 	ourShader->setMat4("projection", projection);
 
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	floor_w->draw(ourShader);
+
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	glfwSwapBuffers(window);
@@ -149,22 +154,25 @@ int main()
 
 	initOpenGLProgram(window);
 
+	Floor floor;
+	floor_w = &floor;
 
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(VAO);
+	//glGenVertexArrays(1, &VAO);
+	//glGenBuffers(1, &VBO);
+	//// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+	//glBindVertexArray(VAO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, 12*sizeof(float), floor.Vertices, GL_STATIC_DRAW);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(0);
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	/*glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);*/
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
@@ -174,13 +182,13 @@ int main()
 		lastFrame = currentFrame;
 		// input
 		processInput(window);
-		drawScene(window, VAO);
+		drawScene(window);
 		glfwPollEvents();
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
 
 	freeOpenGLProgram(window);
 	glfwDestroyWindow(window);
