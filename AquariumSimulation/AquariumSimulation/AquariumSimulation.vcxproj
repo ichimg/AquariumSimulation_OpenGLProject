@@ -142,6 +142,7 @@
     <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Lights.cpp" />
+    <ClCompile Include="other.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>

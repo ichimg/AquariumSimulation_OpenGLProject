@@ -108,8 +108,9 @@ void drawScene(GLFWwindow* window)
 		object->draw(dShader);
 	}
 
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+	// creating a treasure 
+	object = table[objNum];
+	object->draw(dShader);
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	glfwSwapBuffers(window);
 }
@@ -157,6 +158,9 @@ int main()
 		Fish* fish = new Fish("random");
 		table.push_back(fish);
 	}
+
+	Other* treasure = new Other("treasure", glm::vec3(1.0f, 1.0f, 1.0f));
+	table.push_back(treasure);
 
 	dShader->use();
 	dShader->setInt("material.diffuse", 0);
