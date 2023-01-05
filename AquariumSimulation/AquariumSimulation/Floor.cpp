@@ -44,10 +44,10 @@ Floor::Floor() : Length(LENGTH), Width(WIDTH)
 	switch (TextureNo)
 	{
 	case sand:
-		data = stbi_load("sand.jpg", &TextureWidth, &TextureHeight, &nrChannels, 0);
+		data = stbi_load("Models/sand.jpg", &TextureWidth, &TextureHeight, &nrChannels, 0);
 		break;
 	case sand2:
-		data = stbi_load("gravel.jpg", &TextureWidth, &TextureHeight, &nrChannels, 0);
+		data = stbi_load("Models/gravel.jpg", &TextureWidth, &TextureHeight, &nrChannels, 0);
 		break;
 	default:
 		break;

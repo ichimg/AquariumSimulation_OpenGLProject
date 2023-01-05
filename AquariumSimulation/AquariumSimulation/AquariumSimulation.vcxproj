@@ -141,18 +141,24 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="Lights.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="Lights.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.fs" />
-    <None Include="vertex.vs" />
+    <None Include="lightEffects.fs">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="lightEffects.vs" />
+    <None Include="normal.fs" />
+    <None Include="normal.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

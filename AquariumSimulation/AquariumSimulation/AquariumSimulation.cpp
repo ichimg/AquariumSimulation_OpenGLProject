@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Lights.h"
 #include "Shader.h"
 #include "Camera.h"
 #include "Floor.h"
@@ -17,6 +18,8 @@
 
 #include <iostream>
 #include <vector>
+#include <ctime>  
+#include <cstdlib>
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -30,11 +33,13 @@ void scrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-Shader* ourShader;
+Camera camera(glm::vec3(0.0f, 0.1f, 3.0f));
+Shader* lightPosShader, * dShader;
 Floor* floor_w;
 Renderable* object;
 std::vector<Renderable*> table;
+DirLight* lightDir;
+SpotLight* lightSpot;
 
 int objNum = 50;
 
@@ -75,11 +80,14 @@ void drawScene(GLFWwindow* window)
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// render the triangle
-	ourShader->use();
+	dShader->use();
+	dShader->setVec3("viewPos", camera.getPosition());
+	dShader->setFloat("material.shininess", 32.0f);
 
-	// create transformations
-	//glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	lightDir->apply(dShader);
+	lightSpot->apply(dShader);
+
+	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
@@ -87,19 +95,17 @@ void drawScene(GLFWwindow* window)
 	view = camera.GetViewMatrix();
 	projection = glm::perspective(glm::radians(camera.getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
-	// pass transformation matrices to the shader
-	ourShader->setMat4("view", view);
-	//ourShader->setMat4("model", model);
-	ourShader->setMat4("projection", projection);
+	dShader->setMat4("view", view);
+	dShader->setMat4("projection", projection);
+	dShader->setMat4("model", model);
 
-	//glBindVertexArray(VAO);
+	floor_w->draw(dShader);
 
-	floor_w->draw(ourShader);
 	for (int i = 0; i < objNum; i++)
 	{
 		object = table[i];
 		object->behave();
-		object->draw(ourShader);
+		object->draw(dShader);
 	}
 
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -110,6 +116,8 @@ void drawScene(GLFWwindow* window)
 
 int main()
 {
+	srand(time(NULL));
+
 	// glfw: initialize and configure
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -130,33 +138,30 @@ int main()
 
 	initOpenGLProgram(window);
 
-	Shader shader("vertex.vs", "fragment.fs");
-	ourShader = &shader;
+	Shader lightShader("normal.vs", "normal.fs"); //"lightEffects.vs", "lightEffects.fs"
+	Shader defaultShader("lightEffects.vs", "lightEffects.fs");
+	lightPosShader = &lightShader;
+	dShader = &defaultShader;
 
 	Floor floor;
 	floor_w = &floor;
+
+	DirLight light123;
+	lightDir = &light123;
+
+	SpotLight light321;
+	lightSpot = &light321;
+
 	for (int i = 0; i < objNum; i++)
 	{
-		Fish* rryba = new Fish("random");
-		table.push_back(rryba);
+		Fish* fish = new Fish("random");
+		table.push_back(fish);
 	}
 
-	//glGenVertexArrays(1, &VAO);
-	//glGenBuffers(1, &VBO);
-	//// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	//glBindVertexArray(VAO);
+	dShader->use();
+	dShader->setInt("material.diffuse", 0);
+	dShader->setInt("material.specular", 1);
 
-
-
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, 12*sizeof(float), floor.Vertices, GL_STATIC_DRAW);
-
-	// position attribute
-	//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-	// color attribute
-	/*glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);*/
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
@@ -170,9 +175,6 @@ int main()
 		glfwPollEvents();
 	}
 
-	// optional: de-allocate all resources once they've outlived their purpose:
-	//glDeleteVertexArrays(1, &VAO);
-	//glDeleteBuffers(1, &VBO);
 
 	freeOpenGLProgram(window);
 	glfwDestroyWindow(window);
