@@ -23,6 +23,7 @@
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+glm::vec3 CLEAR_COLOR = glm::vec3(0.2f, 0.3f, 0.3f);
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -54,7 +55,7 @@ float lastFrame = 0.0f;
 
 void initOpenGLProgram(GLFWwindow* window)
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(CLEAR_COLOR.x, CLEAR_COLOR.y, CLEAR_COLOR.z, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 	glfwSetCursorPosCallback(window, mouseCallback);
@@ -98,6 +99,7 @@ void drawScene(GLFWwindow* window)
 	dShader->setMat4("view", view);
 	dShader->setMat4("projection", projection);
 	dShader->setMat4("model", model);
+	dShader->setVec3("FogColor", CLEAR_COLOR);
 
 	floor_w->draw(dShader);
 
@@ -177,6 +179,15 @@ int main()
 		processInput(window);
 		drawScene(window);
 		glfwPollEvents();
+
+		//for lightning debug
+		/*
+		std::cout << "Direction Light parameters: " << std::endl;
+		std::cout << "ambient.r = " << lightDir->ambient.r << std::endl;
+		std::cout << "ambient.g = " << lightDir->ambient.g << std::endl;
+		std::cout << "ambient.b = " << lightDir->ambient.b << std::endl;
+		std::system("cls");
+		*/
 	}
 
 
@@ -200,8 +211,22 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	//for lightning debug
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+		lightDir->ambient.r += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+		lightDir->ambient.r -= 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		lightDir->ambient.g += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+		lightDir->ambient.g -= 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+		lightDir->ambient.b += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+		lightDir->ambient.b -= 0.01f;
 }
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.

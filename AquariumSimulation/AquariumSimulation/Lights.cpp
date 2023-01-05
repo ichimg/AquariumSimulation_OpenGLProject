@@ -3,20 +3,16 @@
 
 DirLight::DirLight()
 {
-	ambient = glm::vec3(0.2f, 1.0f, 0.3f);;
-	diffuse = glm::vec3(0.5f, 0.0f, 0.4f);;
-	specular = glm::vec3(0.9f, 0.5f, 0.0f);;
+	ambient = glm::vec3(0.2f, 0.5f, 0.3f);
+	diffuse = glm::vec3(0.2f, 0.5f, 0.3f);
+	specular = glm::vec3(0.2f, 0.5f, 0.3f);
 
-	direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	direction = glm::vec3(0.0f, -10.0f, 0.0f);
 }
 
 DirLight::~DirLight()
 {
-	ambient = glm::vec3(0.2f, 0.5f, 0.3f);
-	diffuse = glm::vec3(0.5f, 0.1f, 0.4f);
-	specular = glm::vec3(0.9f, 0.5f, 0.5f);
-
-	direction = glm::vec3(0.0f, -1.0f, 0.0f);
+	//
 }
 
 void DirLight::apply(Shader* sp)
