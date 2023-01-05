@@ -6,7 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
-#include "stb_image.h"
+
+
 
 
 const int LENGTH = 10;	//Length of floor object
@@ -31,9 +32,10 @@ private:
 	unsigned char* data;
 	int TextureWidth, TextureHeight, nrChannels;
 	unsigned int Texture;
-	enum TextureNumber
+	enum Texture_Number
 	{
-		sand
+		sand,
+		sand2
 	};
 
 public:

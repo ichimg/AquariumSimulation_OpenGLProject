@@ -11,8 +11,12 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Floor.h"
+#include "Renderable.h"
+#include "stb_image.h"
+
 
 #include <iostream>
+#include <vector>
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -29,6 +33,10 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 Shader* ourShader;
 Floor* floor_w;
+Renderable* object;
+std::vector<Renderable*> table;
+
+int objNum = 50;
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -48,13 +56,17 @@ void initOpenGLProgram(GLFWwindow* window)
 	glfwSetScrollCallback(window, scrollCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // tell GLFW to capture our mouse
-	ourShader = new Shader("vertex.vs", "fragment.fs"); // build and compile our shader program
 }
 
 void freeOpenGLProgram(GLFWwindow* window)
 {
-	delete ourShader;
 	glfwDestroyWindow(window);
+	for (int i = 0; i < objNum; i++)
+	{
+		Renderable* r = table.back();
+		table.pop_back();
+		delete r;
+	}
 }
 
 void drawScene(GLFWwindow* window)
@@ -83,6 +95,12 @@ void drawScene(GLFWwindow* window)
 	//glBindVertexArray(VAO);
 
 	floor_w->draw(ourShader);
+	for (int i = 0; i < objNum; i++)
+	{
+		object = table[i];
+		object->behave();
+		object->draw(ourShader);
+	}
 
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -112,8 +130,16 @@ int main()
 
 	initOpenGLProgram(window);
 
+	Shader shader("vertex.vs", "fragment.fs");
+	ourShader = &shader;
+
 	Floor floor;
 	floor_w = &floor;
+	for (int i = 0; i < objNum; i++)
+	{
+		Fish* rryba = new Fish("random");
+		table.push_back(rryba);
+	}
 
 	//glGenVertexArrays(1, &VAO);
 	//glGenBuffers(1, &VBO);

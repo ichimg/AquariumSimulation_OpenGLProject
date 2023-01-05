@@ -139,12 +139,15 @@
   <ItemGroup>
     <ClCompile Include="AquariumSimulation.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="Renderable.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
