@@ -100,7 +100,7 @@ void drawScene(GLFWwindow* window)
 	dShader->setMat4("projection", projection);
 	dShader->setMat4("model", model);
 	dShader->setVec3("FogColor", CLEAR_COLOR);
-
+	dShader->setBool("enableFog", 1);
 	floor_w->draw(dShader);
 
 	for (int i = 0; i < objNum; i++)

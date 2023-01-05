@@ -40,6 +40,8 @@ in float visibility;
 uniform sampler2D ourTexture;
 uniform vec3 viewPos;
 uniform vec3 FogColor;
+uniform bool enableFog;
+
 
 uniform DirLight dirLight;
 //uniform Material material;
@@ -55,10 +57,12 @@ void main()
 	vec3 viewDir = normalize(viewPos - FragPos);
 
 	vec3 result = CalcDirLight(dirLight, norm, viewDir);
-	//result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
+	result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
 
 	FragColor = texture(ourTexture, TexCoords) * vec4(result, 1.0);
-	FragColor = mix(vec4(FogColor,1.0),FragColor, visibility);
+
+	if (enableFog)
+		FragColor = mix(vec4(FogColor,1.0),FragColor, visibility);
 }
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)

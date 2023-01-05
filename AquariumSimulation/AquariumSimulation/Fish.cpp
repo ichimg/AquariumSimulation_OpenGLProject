@@ -138,7 +138,12 @@ void Fish::move(glm::vec3 coordinates)
 	x += (coordinates.x - x) / dist * Velocity;
 	y += (coordinates.y - y) / dist * Velocity;
 	z += (coordinates.z - z) / dist * Velocity;
+	if (rsteps > 0)
+	{
 
+
+		rsteps--;
+	}
 }
 
 glm::vec2 Fish::AnglesBeetwen(glm::vec3 v1, glm::vec3 v2)
