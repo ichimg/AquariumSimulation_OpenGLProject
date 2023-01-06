@@ -1,6 +1,5 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
-#include <iostream>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

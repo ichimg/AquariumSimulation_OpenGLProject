@@ -139,6 +139,8 @@ void Other::draw(Shader* sp)
 
 	this->Model = glm::translate(this->Model, glm::vec3(x, y, z));
 
+	this->Model = glm::scale(this->Model, glm::vec3(0.2f, 0.2f, 0.2f));
+
 	sp->setMat4("model", this->Model);
 
 	glActiveTexture(GL_TEXTURE0);

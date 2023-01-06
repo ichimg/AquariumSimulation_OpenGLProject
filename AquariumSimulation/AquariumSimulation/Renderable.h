@@ -11,10 +11,9 @@
 
 extern std::mt19937 gen;
 
-//Maximum area where "renderables" may move
-const float MAX_X = 15.0f;
+const float MAX_X = 16.0f;
 const float MAX_Y = 7.5f;
-const float MAX_Z = 15.0f;
+const float MAX_Z = 16.0f;
 const float MIN_Y = 2.5f;
 
 
@@ -22,9 +21,9 @@ class Renderable
 {
 protected:
 	glm::mat4 Model;
-	float x, y, z;	//position of object
-	float rx, ry, rz;	//rotation angle of object
-	float sx, sy, sz;	//scale of object
+	float x, y, z;	
+	float rx, ry, rz;	
+	float sx, sy, sz;	
 
 	unsigned char* TextureData;
 	int TextureWidth, TextureHeight, nrChannels;
@@ -33,7 +32,7 @@ protected:
 	int VerticesNumber;
 
 	template<class T>
-	T random(T min, T max);	//Works for both int and float values
+	T random(T min, T max);	
 
 public:
 	Renderable();
@@ -67,9 +66,9 @@ private:
 	float RotateVelocity;
 	unsigned int VAO, VBO[3];
 
-	glm::vec3 wantToGo; //for move
+	glm::vec3 wantToGo; 
 	int rsteps;
-	int steps; //for move
+	int steps;
 
 	glm::vec2 AnglesBeetwen(glm::vec3 v1, glm::vec3 v2);
 

@@ -44,7 +44,7 @@ std::vector<Renderable*> table;
 DirLight* lightDir;
 SpotLight* lightSpot;
 
-int objNum = 50;
+int objNum = 100;
 
 bool enableF = 1, enableD = 1, enableS = 1;
 float KEY_PRESS = 0.0;
@@ -126,8 +126,6 @@ void drawScene(GLFWwindow* window)
 
 int main()
 {
-	srand(time(NULL));
-
 	// glfw: initialize and configure
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -171,10 +169,6 @@ int main()
 	Other* treasure = new Other("treasure", glm::vec3(1.0f, 1.0f, 1.0f));
 	table.push_back(treasure);
 
-	dShader->use();
-	dShader->setInt("material.diffuse", 0);
-	dShader->setInt("material.specular", 1);
-
 	// render loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -186,18 +180,6 @@ int main()
 		drawScene(window);
 		glfwPollEvents();
 
-		//for lightning debug
-		/*std::cout << "Spot Light parameters: " << std::endl;
-		std::cout << "ambient.r = " << lightSpot->ambient.r * 255 << std::endl;
-		std::cout << "ambient.g = " << lightSpot->ambient.g * 255 << std::endl;
-		std::cout << "ambient.b = " << lightSpot->ambient.b * 255 << std::endl;
-		std::cout << "diffuse.r = " << lightSpot->diffuse.r * 255 << std::endl;
-		std::cout << "diffuse.g = " << lightSpot->diffuse.g * 255 << std::endl;
-		std::cout << "diffuse.b = " << lightSpot->diffuse.b * 255 << std::endl;
-		std::cout << "specular.r = " << lightSpot->specular.r * 255 << std::endl;
-		std::cout << "specular.g = " << lightSpot->specular.g * 255 << std::endl;
-		std::cout << "specular.b = " << lightSpot->specular.b * 255 << std::endl;
-		std::system("cls");*/
 	}
 
 

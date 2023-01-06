@@ -122,16 +122,9 @@ void Fish::behave()
 {
 	if (steps == 0)
 	{
-		std::cout << wantToGo.x << "/" << wantToGo.y << "/" << wantToGo.z << std::endl;
-		//Sleep(random(10, 100));
-		wantToGo = glm::vec3(random(-MAX_X, MAX_X), random(1.0f, MAX_Y), random(-MAX_Z, MAX_Z));
-		glm::vec3 directionToGo = wantToGo - glm::vec3(x, y, z);
+		wantToGo = glm::vec3(random(-MAX_X, MAX_X), random(MIN_Y, MAX_Y), random(-MAX_Z, MAX_Z));		glm::vec3 directionToGo = wantToGo - glm::vec3(x, y, z);
 		steps = round(distance(wantToGo, glm::vec3(x, y, z)) / Velocity);
-		//rsteps = 
-		std::cout << wantToGo.x << "/" << wantToGo.y << "/" << wantToGo.z << std::endl;
-		std::cout << glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).x) << std::endl;
-		std::cout << glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).y) << std::endl;
-
+		
 		rx = glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).x);
 		ry = glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).y);
 	}
@@ -149,12 +142,6 @@ void Fish::move(glm::vec3 coordinates)
 	x += (coordinates.x - x) / dist * Velocity;
 	y += (coordinates.y - y) / dist * Velocity;
 	z += (coordinates.z - z) / dist * Velocity;
-	if (rsteps > 0)
-	{
-
-
-		rsteps--;
-	}
 }
 
 glm::vec2 Fish::AnglesBeetwen(glm::vec3 v1, glm::vec3 v2)
