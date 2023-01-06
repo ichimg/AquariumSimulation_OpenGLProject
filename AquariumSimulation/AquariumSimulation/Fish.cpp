@@ -58,6 +58,12 @@ Fish::Fish(std::string _s, glm::vec3 initialPosition, glm::vec3 initialRotation,
 	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
 	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
@@ -116,10 +122,15 @@ void Fish::behave()
 {
 	if (steps == 0)
 	{
-		wantToGo = glm::vec3(random(-MAX_X, MAX_X), random(MIN_Y, MAX_Y), random(-MAX_Z, MAX_Z));
-		Velocity = random(0.01f, 0.05f);
+		std::cout << wantToGo.x << "/" << wantToGo.y << "/" << wantToGo.z << std::endl;
+		//Sleep(random(10, 100));
+		wantToGo = glm::vec3(random(-MAX_X, MAX_X), random(1.0f, MAX_Y), random(-MAX_Z, MAX_Z));
 		glm::vec3 directionToGo = wantToGo - glm::vec3(x, y, z);
 		steps = round(distance(wantToGo, glm::vec3(x, y, z)) / Velocity);
+		//rsteps = 
+		std::cout << wantToGo.x << "/" << wantToGo.y << "/" << wantToGo.z << std::endl;
+		std::cout << glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).x) << std::endl;
+		std::cout << glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).y) << std::endl;
 
 		rx = glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).x);
 		ry = glm::degrees(AnglesBeetwen(glm::vec3(x, y, z), wantToGo).y);

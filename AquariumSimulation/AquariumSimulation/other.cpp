@@ -42,7 +42,7 @@ Other::Other(std::string element_s, glm::vec3 initialPosition)
 
 	glGenVertexArrays(1, &VAO);
 
-	glGenBuffers(2, VBO);
+	glGenBuffers(3, VBO);
 
 
 
@@ -50,6 +50,13 @@ Other::Other(std::string element_s, glm::vec3 initialPosition)
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
 
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
 

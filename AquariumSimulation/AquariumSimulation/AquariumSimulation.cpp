@@ -23,7 +23,7 @@
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-const int FRAMES_PER_SECOND = 60;
+const int FRAMES_PER_SECOND = 120;
 const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 glm::vec3 CLEAR_COLOR = glm::vec3(0.2f, 0.3f, 0.3f);
 
@@ -175,9 +175,6 @@ int main()
 	dShader->setInt("material.diffuse", 0);
 	dShader->setInt("material.specular", 1);
 
-	DWORD next_game_tick = GetTickCount();
-	int sleep_time = 0;
-
 	// render loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -189,21 +186,18 @@ int main()
 		drawScene(window);
 		glfwPollEvents();
 
-		next_game_tick += SKIP_TICKS;
-		sleep_time = next_game_tick - GetTickCount();
-		if (sleep_time >= 0)
-		{
-			Sleep(sleep_time);
-		}
-
 		//for lightning debug
-		/*
-		std::cout << "Direction Light parameters: " << std::endl;
-		std::cout << "ambient.r = " << lightDir->ambient.r << std::endl;
-		std::cout << "ambient.g = " << lightDir->ambient.g << std::endl;
-		std::cout << "ambient.b = " << lightDir->ambient.b << std::endl;
-		std::system("cls");
-		*/
+		/*std::cout << "Spot Light parameters: " << std::endl;
+		std::cout << "ambient.r = " << lightSpot->ambient.r * 255 << std::endl;
+		std::cout << "ambient.g = " << lightSpot->ambient.g * 255 << std::endl;
+		std::cout << "ambient.b = " << lightSpot->ambient.b * 255 << std::endl;
+		std::cout << "diffuse.r = " << lightSpot->diffuse.r * 255 << std::endl;
+		std::cout << "diffuse.g = " << lightSpot->diffuse.g * 255 << std::endl;
+		std::cout << "diffuse.b = " << lightSpot->diffuse.b * 255 << std::endl;
+		std::cout << "specular.r = " << lightSpot->specular.r * 255 << std::endl;
+		std::cout << "specular.g = " << lightSpot->specular.g * 255 << std::endl;
+		std::cout << "specular.b = " << lightSpot->specular.b * 255 << std::endl;
+		std::system("cls");*/
 	}
 
 
@@ -245,16 +239,29 @@ void processInput(GLFWwindow* window)
 
 	//for lightning debug
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-		lightDir->ambient.r += 0.01f;
+		lightSpot->position.y += 0.1f;
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		lightDir->ambient.r -= 0.01f;
+		lightSpot->position.y -= 0.1f;
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-		lightDir->ambient.g += 0.01f;
+		lightSpot->cutOff += 0.01f;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		lightDir->ambient.g -= 0.01f;
+		lightSpot->cutOff -= 0.01f;
 	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
-		lightDir->ambient.b += 0.01f;
+		lightSpot->outerCutOff += 0.01f;
 	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+		lightSpot->outerCutOff -= 0.01f;
+
+	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+		lightDir->ambient.r += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+		lightDir->ambient.r -= 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+		lightDir->ambient.g += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+		lightDir->ambient.g -= 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+		lightDir->ambient.b += 0.01f;
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
 		lightDir->ambient.b -= 0.01f;
 }
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

@@ -91,7 +91,7 @@ private:
 
 class Other : public Renderable
 {
-	unsigned int VAO, VBO[2];
+	unsigned int VAO, VBO[3];
 	float location[3];
 
 public:
