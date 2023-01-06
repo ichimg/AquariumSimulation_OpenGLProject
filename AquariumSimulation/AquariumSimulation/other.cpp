@@ -28,7 +28,7 @@ Other::Other(std::string element_s, glm::vec3 initialPosition)
 
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
 
-	std::string path_obj = "Models/treasure.obj";
+	std::string path_obj = "Models/" + element_s +".obj";
 
 	bool res = loadOBJ(path_obj.c_str(), vertices, uvs, normals);
 
@@ -51,6 +51,7 @@ Other::Other(std::string element_s, glm::vec3 initialPosition)
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -100,7 +101,7 @@ Other::Other(std::string element_s, glm::vec3 initialPosition)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	std::string path_tex = "Models/treasure.jpg";
+	std::string path_tex = "Models/" + element_s + ".jpg";
 
 	TextureData = stbi_load(path_tex.c_str(), &TextureWidth, &TextureHeight, &nrChannels, 0);
 

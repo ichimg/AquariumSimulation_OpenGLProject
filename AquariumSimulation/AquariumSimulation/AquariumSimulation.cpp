@@ -49,6 +49,7 @@ int rockNum = 20;
 
 int objNum = fishNum + rockNum;
 
+
 bool enableF = 1, enableD = 1, enableS = 1;
 float KEY_PRESS = 0.0;
 
@@ -125,6 +126,7 @@ void drawScene(GLFWwindow* window)
 	object->draw(dShader);
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	glfwSwapBuffers(window);
+
 }
 
 int main()
@@ -177,6 +179,7 @@ int main()
 
 	Other* treasure = new Other("treasure", glm::vec3(1.0f, 1.0f, 1.0f));
 	table.push_back(treasure);
+
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
