@@ -44,7 +44,10 @@ std::vector<Renderable*> table;
 DirLight* lightDir;
 SpotLight* lightSpot;
 
-int objNum = 100;
+int fishNum = 100;
+int rockNum = 20;
+
+int objNum = fishNum + rockNum;
 
 bool enableF = 1, enableD = 1, enableS = 1;
 float KEY_PRESS = 0.0;
@@ -160,10 +163,16 @@ int main()
 	SpotLight light321;
 	lightSpot = &light321;
 
-	for (int i = 0; i < objNum; i++)
+	for (int i = 0; i < fishNum; i++)
 	{
 		Fish* fish = new Fish("random");
 		table.push_back(fish);
+	}
+
+	for (int i = 0; i < rockNum; i++)
+	{
+		Rock* sskala = new Rock();
+		table.push_back(sskala);
 	}
 
 	Other* treasure = new Other("treasure", glm::vec3(1.0f, 1.0f, 1.0f));

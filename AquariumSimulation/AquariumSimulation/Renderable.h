@@ -111,10 +111,4 @@ public:
 	void behave();
 };
 
-
-
-
-
-
-
 #endif
