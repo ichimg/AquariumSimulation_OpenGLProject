@@ -23,6 +23,8 @@
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+const int FRAMES_PER_SECOND = 60;
+const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 glm::vec3 CLEAR_COLOR = glm::vec3(0.2f, 0.3f, 0.3f);
 
 #pragma comment (lib, "glfw3dll.lib")
@@ -43,6 +45,9 @@ DirLight* lightDir;
 SpotLight* lightSpot;
 
 int objNum = 50;
+
+bool enableF = 1, enableD = 1, enableS = 1;
+float KEY_PRESS = 0.0;
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -100,7 +105,9 @@ void drawScene(GLFWwindow* window)
 	dShader->setMat4("projection", projection);
 	dShader->setMat4("model", model);
 	dShader->setVec3("FogColor", CLEAR_COLOR);
-	dShader->setBool("enableFog", 1);
+	dShader->setBool("enableFog", enableF);
+	dShader->setBool("enableDirLight", enableD);
+	dShader->setBool("enableSpotLight", enableS);
 	floor_w->draw(dShader);
 
 	for (int i = 0; i < objNum; i++)
@@ -168,6 +175,8 @@ int main()
 	dShader->setInt("material.diffuse", 0);
 	dShader->setInt("material.specular", 1);
 
+	DWORD next_game_tick = GetTickCount();
+	int sleep_time = 0;
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
@@ -179,6 +188,13 @@ int main()
 		processInput(window);
 		drawScene(window);
 		glfwPollEvents();
+
+		next_game_tick += SKIP_TICKS;
+		sleep_time = next_game_tick - GetTickCount();
+		if (sleep_time >= 0)
+		{
+			Sleep(sleep_time);
+		}
 
 		//for lightning debug
 		/*
@@ -201,16 +217,32 @@ int main()
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetTime() - KEY_PRESS > 0.35)
+	{
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			glfwSetWindowShouldClose(window, true);
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera.ProcessKeyboard(FORWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera.ProcessKeyboard(BACKWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera.ProcessKeyboard(LEFT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera.ProcessKeyboard(RIGHT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
+		{
+			enableF = !enableF; KEY_PRESS = glfwGetTime();
+		}
+		if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS)
+		{
+			enableS = !enableS; KEY_PRESS = glfwGetTime();
+		}
+		if (glfwGetKey(window, GLFW_KEY_F3) == GLFW_PRESS)
+		{
+			enableD = !enableD; KEY_PRESS = glfwGetTime();
+		}
+	}
+
 	//for lightning debug
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 		lightDir->ambient.r += 0.01f;
